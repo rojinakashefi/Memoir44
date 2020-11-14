@@ -1,3 +1,4 @@
+
 package game;
 
 import java.util.ArrayList;
@@ -22,7 +23,26 @@ public class GameBoard {
     }
 
     public static void printGameBoard() {
-        //TODO:
+        //TODO-> not completed
+        GameBoard.printGameUnit();
+        GameBoard.printGameUnit();
+        GameBoard.printGameUnit();
+        GameBoard.printGameUnit();
+        GameBoard.printGameUnit();
+        GameBoard.printGameUnit();
     }
-}
 
+    public static void printGameUnit() {
+        print("  * ** *  ");
+        print(" *      * ");
+        print("*        *");
+        print(" *      * ");
+        print("  * ** *  ");
+    }
+
+    private static void print(String text) {
+        System.out.println(text);
+    }
+
+
+}

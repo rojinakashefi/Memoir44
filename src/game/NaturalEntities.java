@@ -1,7 +1,7 @@
 package game;
 
 public enum NaturalEntities {
-    OrdinaryLand,
+    Land,
     Hill,
     Forest,
     River,

@@ -12,49 +12,52 @@ import java.util.List;
 public class GameBoard {
 
     public static List<List<GameUnit>> board;
+    public static List<Card> cards;
+    public static List<Card> playedCards;
+
     private static final int numberOfRows = 9;
 
-    public void print(){
+    public static void print() {
         for (int j = 0; j < board.size(); j++) {
             int numberOfCols = 13;
-            if (j%2 == 1){
+            if (j % 2 == 1) {
                 numberOfCols = 12;
             }
             for (int i = 0; i < numberOfCols; i++) {
-                if (j%2 == 1 && i==0) {
+                if (j % 2 == 1 && i == 0) {
                     System.out.print("     ");
                 }
                 System.out.print("  * ** *  ");
             }
             System.out.println();
             for (int i = 0; i < numberOfCols; i++) {
-                if (j%2 == 1 && i==0) {
+                if (j % 2 == 1 && i == 0) {
                     System.out.print("     ");
                 }
                 System.out.print(" *      * ");
             }
             System.out.println();
             for (int i = 0; i < numberOfCols; i++) {
-                if (j%2 == 1 && i==0) {
+                if (j % 2 == 1 && i == 0) {
                     System.out.print("     ");
                 }
                 System.out.print("* ");
                 int len = printUnit(board.get(j).get(i));
-                for (int k = 0; k < 7-len; k++) {
+                for (int k = 0; k < 7 - len; k++) {
                     System.out.print(" ");
                 }
                 System.out.print("*");
             }
             System.out.println();
             for (int i = 0; i < numberOfCols; i++) {
-                if (j%2 == 1 && i==0) {
+                if (j % 2 == 1 && i == 0) {
                     System.out.print("     ");
                 }
                 System.out.print(" *      * ");
             }
             System.out.println();
             for (int i = 0; i < numberOfCols; i++) {
-                if (j%2 == 1 && i==0) {
+                if (j % 2 == 1 && i == 0) {
                     System.out.print("     ");
                 }
                 System.out.print("  * ** *  ");
@@ -64,18 +67,7 @@ public class GameBoard {
 
     }
 
-
-//    public void printGameBoard() {
-//        for (int i = 0; i < board.size(); i++) {
-//            List<GameUnit> units = board.get(i);
-//            for (int j = 0; j < units.size(); j++) {
-//                printUnit(units.get(j));
-//            }
-//            System.out.println();
-//        }
-//    }
-
-    private int printUnit(GameUnit gameUnit) {
+    private static int printUnit(GameUnit gameUnit) {
         String str = "";
         switch (gameUnit.getUnitType()) {
             case Hill:
@@ -108,10 +100,15 @@ public class GameBoard {
         return str.length();
     }
 
-    private String getEquipmentInfo(GameUnit unit) {
-        String str = unit.getPlayerName().substring(0, 2);
-        Equipment equipment = unit.getEquipmentGroup().getEquipment().get(0);
-        str += String.valueOf(unit.getEquipmentGroup().getEquipment().size());
+    private static String getEquipmentInfo(GameUnit unit) {
+        String str = "";
+        str = unit.getPlayerName() != null ?  unit.getPlayerName().substring(0, 2) : "";
+        List<Equipment> equipments = unit.getEquipmentGroup().getEquipment();
+        Equipment equipment = null;
+        if (equipments != null && equipments.size() >0){
+            equipment = equipments.get(0);
+            str += String.valueOf(unit.getEquipmentGroup().getEquipment().size());
+        }
         if (equipment instanceof Tank) {
             str += "T";
         } else if (equipment instanceof Infantry) {
@@ -122,14 +119,15 @@ public class GameBoard {
         return str;
     }
 
-    public void initializeBoard() {
+    public static void initializeBoard() {
         //9*13 game baord
-        this.createEmptyBoard();
+        createEmptyBoard();
         //naghsheye avalyie pishfarz
-        this.createDefaultMap();
+        createDefaultMap();
+        playedCards = new ArrayList<>();
     }
 
-    private void createEmptyBoard() {
+    private static void createEmptyBoard() {
         board = new ArrayList<>();
         for (int i = 0; i < 9; i++) {
             List<GameUnit> units = new ArrayList<>();
@@ -144,7 +142,7 @@ public class GameBoard {
         }
     }
 
-    private void createDefaultMap() {
+    private static void createDefaultMap() {
         board.get(0).get(0).setUnitType(NaturalEntities.Hill);
         board.get(0).get(1).setUnitType(NaturalEntities.Hill);
         board.get(0).get(3).setUnitType(NaturalEntities.Shelter);
@@ -192,7 +190,7 @@ public class GameBoard {
         board.get(8).get(11).setUnitType(NaturalEntities.CityOrVillage);
     }
 
-    public void initializeEquipments(Player axisPlayer, Player alliedPlayer) {
+    public static void initializeEquipments(Player axisPlayer, Player alliedPlayer) {
         //--Axis Equipments
         board.get(0).get(0).setPlayerName("Axis");
         board.get(0).get(0).setEquipmentGroup(Tank.initializeGroupForAxis());
@@ -252,8 +250,8 @@ public class GameBoard {
         board.get(4).get(1).setPlayerName("Allied");
         board.get(4).get(1).setEquipmentGroup(Infantry.initializeGroup());
 
-//        board.get(4).get(6).setPlayerName("Allied");
-//        board.get(4).get(6).setEquipmentGroup(Infantry.initializeGroup());
+        board.get(4).get(6).setPlayerName("Allied");
+        board.get(4).get(6).setEquipmentGroup(Infantry.initializeGroup());
 
         board.get(4).get(8).setPlayerName("Allied");
         board.get(4).get(8).setEquipmentGroup(Infantry.initializeGroup());
@@ -275,5 +273,48 @@ public class GameBoard {
 
         board.get(8).get(8).setPlayerName("Allied");
         board.get(8).get(8).setEquipmentGroup(Infantry.initializeGroup());
+    }
+
+    public static void initializeCards(Player axisPlayer, Player alliedPlayer) {
+        cards = new ArrayList<>();
+        for (int i = 0; i < 6; i++) {
+            cards.add(new Card(CardType.SingleGroupCommand));
+        }
+        for (int i = 0; i < 13; i++) {
+            cards.add(new Card(CardType.TwoGroupCommand));
+        }
+        for (int i = 0; i < 10; i++) {
+            cards.add(new Card(CardType.ThreeGroupCommand));
+        }
+        for (int i = 0; i < 6; i++) {
+            cards.add(new Card(CardType.FourGroupCommand));
+        }
+        for (int i = 0; i < 5; i++) {
+            cards.add(new Card(CardType.ThreeUnitFromOneEquipmentCommand));
+        }
+
+        //assign 2 cards to axis
+        assignAxisCards(axisPlayer);
+
+        //assign 4 cards to axis
+        assignAlliedCards(alliedPlayer);
+    }
+
+    private static void assignAlliedCards(Player alliedPlayer) {
+        //assign 4 cards to allied
+        for (int i = 0; i < 4; i++) {
+            int rnd = Dice.roll(cards.size());
+            alliedPlayer.getCards().add(cards.get(rnd));
+            cards.remove(rnd);
+        }
+    }
+
+    private static void assignAxisCards(Player axisPlayer) {
+        //assign 2 cards to axis
+        for (int i = 0; i < 2; i++) {
+            int rnd = Dice.roll(cards.size());
+            axisPlayer.getCards().add(cards.get(rnd));
+            cards.remove(rnd);
+        }
     }
 }

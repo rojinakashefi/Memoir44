@@ -2,6 +2,7 @@ package game;
 
 import equipment.Equipment;
 import equipment.EquipmentGroup;
+import java.util.ArrayList;
 
 public class GameUnit {
     private EquipmentGroup equipmentGroup;
@@ -13,6 +14,9 @@ public class GameUnit {
     }
 
     public EquipmentGroup getEquipmentGroup() {
+        if (equipmentGroup == null){
+            equipmentGroup = new EquipmentGroup(new ArrayList<>());
+        }
         return equipmentGroup;
     }
 
@@ -36,3 +40,4 @@ public class GameUnit {
         this.unitType = unitType;
     }
 }
+

@@ -6,6 +6,7 @@ public class Main {
         Game game = new Game();
         game.getPlayersInfo();
         game.initialize();
-        game.getGameBoard().print();
+        GameBoard.print();
+        game.start();
     }
 }

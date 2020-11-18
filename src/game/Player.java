@@ -1,21 +1,24 @@
 package game;
 
-import equipment.Artillery;
-import equipment.EquipmentGroup;
-import equipment.Infantry;
-import equipment.Tank;
+import equipment.*;
 
 import java.util.ArrayList;
 import java.util.List;
+
 public class Player {
     private String name;
     private List<Card> cards;
+    private int score;
+
+
+
     //دسته نیروهای مرتبط با هر بازیکن
     private List<EquipmentGroup> equipmentGroups;
 
     public Player(String name) {
         this.name = name;
         equipmentGroups = new ArrayList<>();
+        cards = new ArrayList<>();
     }
 
     public String getName() {
@@ -66,5 +69,24 @@ public class Player {
         for (int i = 0; i < 7; i++) {
             equipmentGroups.add(Infantry.initializeGroup());
         }
+    }
+
+    public void printAvailableCards(){
+        List<Card> cards = getCards();
+        for (int i = 0; i < cards.size(); i++) {
+            System.out.println(i+1 + "- "+ cards.get(i).getTitle());
+        }
+    }
+
+    public Card remove(int selectedCard) {
+        return cards.remove(selectedCard);
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 }

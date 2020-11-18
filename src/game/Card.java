@@ -1,4 +1,8 @@
 package game;
+
+/**
+ * showing different cards we have in a game
+ */
 enum CardType {
     SingleGroupCommand ,
     TwoGroupCommand,
@@ -6,23 +10,43 @@ enum CardType {
     FourGroupCommand,
     ThreeUnitFromOneEquipmentCommand
 }
+
+/**
+ * cards of game info
+ */
 public class Card {
     private CardType cardType;
 
     public Card() {
     }
 
+    /**
+     * second constructor
+     * @param cardType as to set what type of card we have want
+     */
     public Card(CardType cardType) {
         this.cardType = cardType;
     }
 
+    /**
+     * getting cardtype
+     * @return card type
+     */
     public CardType getCardType() {
         return cardType;
     }
 
+    /**
+     * setting cardType
+     * @param cardType as cardType we want to set
+     */
     public void setCardType(CardType cardType) {
         this.cardType = cardType;
     }
+
+    /**
+     * @return title of cards(which shows what can a card do)
+     */
     public String getTitle() {
         if (cardType == CardType.SingleGroupCommand)
             return "order 1 units";

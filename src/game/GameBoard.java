@@ -8,15 +8,24 @@ import equipment.Tank;
 import java.util.ArrayList;
 import java.util.List;
 
-//naghsheye bazi
+/**
+ * Game Board of class
+ * @author kashefi
+ * @version 0.0
+ */
 public class GameBoard {
-
+    //each game board consists list of game units
     public static List<List<GameUnit>> board;
+    //list of all cards we have in game
     public static List<Card> cards;
+    //list of cards we have played
     public static List<Card> playedCards;
 
     private static final int numberOfRows = 9;
 
+    /**
+     * printing board
+     */
     public static void print() {
         for (int j = 0; j < board.size(); j++) {
             int numberOfCols = 13;
@@ -67,6 +76,11 @@ public class GameBoard {
 
     }
 
+    /**
+     * printing unit entities in characters
+     * @param gameUnit as unit which made board
+     * @return
+     */
     private static int printUnit(GameUnit gameUnit) {
         String str = "";
         switch (gameUnit.getUnitType()) {
@@ -100,6 +114,11 @@ public class GameBoard {
         return str.length();
     }
 
+    /**
+     *
+     * @param unit
+     * @return
+     */
     private static String getEquipmentInfo(GameUnit unit) {
         String str = "";
         str = unit.getPlayerName() != null ?  unit.getPlayerName().substring(0, 2) : "";
@@ -119,6 +138,10 @@ public class GameBoard {
         return str;
     }
 
+    /**
+     * initializing board game
+     * first we make an empty map then we add entities to it
+     */
     public static void initializeBoard() {
         //9*13 game baord
         createEmptyBoard();
@@ -127,6 +150,9 @@ public class GameBoard {
         playedCards = new ArrayList<>();
     }
 
+    /**
+     * creating an empty map which all of them by default are land
+     */
     private static void createEmptyBoard() {
         board = new ArrayList<>();
         for (int i = 0; i < 9; i++) {
@@ -142,6 +168,9 @@ public class GameBoard {
         }
     }
 
+    /**
+     * making default map of game
+     */
     private static void createDefaultMap() {
         board.get(0).get(0).setUnitType(NaturalEntities.Hill);
         board.get(0).get(1).setUnitType(NaturalEntities.Hill);
@@ -190,6 +219,11 @@ public class GameBoard {
         board.get(8).get(11).setUnitType(NaturalEntities.CityOrVillage);
     }
 
+    /**
+     *
+     * @param axisPlayer as axsis player
+     * @param alliedPlayer as allied player
+     */
     public static void initializeEquipments(Player axisPlayer, Player alliedPlayer) {
         //--Axis Equipments
         board.get(0).get(0).setPlayerName("Axis");
@@ -275,6 +309,11 @@ public class GameBoard {
         board.get(8).get(8).setEquipmentGroup(Infantry.initializeGroup());
     }
 
+    /**
+     * setting whole cards of game and setting first 2 cards of axis and 4 cards of allied
+     * @param axisPlayer as axis player of game
+     * @param alliedPlayer as allied payer of game
+     */
     public static void initializeCards(Player axisPlayer, Player alliedPlayer) {
         cards = new ArrayList<>();
         for (int i = 0; i < 6; i++) {
@@ -300,18 +339,28 @@ public class GameBoard {
         assignAlliedCards(alliedPlayer);
     }
 
+    /**
+     * setting allied 4 cards
+     * @param alliedPlayer as allied player
+     */
     private static void assignAlliedCards(Player alliedPlayer) {
         //assign 4 cards to allied
         for (int i = 0; i < 4; i++) {
+            //giving card rando
             int rnd = Dice.roll(cards.size());
             alliedPlayer.getCards().add(cards.get(rnd));
             cards.remove(rnd);
         }
     }
 
+    /**
+     * setting axis 2 cards
+     * @param axisPlayer as axis player
+     */
     private static void assignAxisCards(Player axisPlayer) {
         //assign 2 cards to axis
         for (int i = 0; i < 2; i++) {
+            //giving card random
             int rnd = Dice.roll(cards.size());
             axisPlayer.getCards().add(cards.get(rnd));
             cards.remove(rnd);

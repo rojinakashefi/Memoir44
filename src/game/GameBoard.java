@@ -116,8 +116,8 @@ public class GameBoard {
 
     /**
      *
-     * @param unit
-     * @return
+     * @param unit as game unit we want to show information in board
+     * @return string we want to priny
      */
     private static String getEquipmentInfo(GameUnit unit) {
         String str = "";

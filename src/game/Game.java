@@ -88,16 +88,16 @@ public class Game {
         System.out.println("Attack info: 'row col' of your units:sample 1 3");
         System.out.println("or, enter -1 -1 for exit");
         //setting place of your unites
-        int row = scanner.nextInt();
-        int col = scanner.nextInt();
+        int row = scanner.nextInt()-1;
+        int col = scanner.nextInt()-1;
 
         if (row == -1 && col == -1)
             return;
 
         System.out.println("Attack goal: 'row col' of oponent units for atack:sample 5 4");
         //setting goal destination we want to attack
-        int goalRow = scanner.nextInt();
-        int goalCol = scanner.nextInt();
+        int goalRow = scanner.nextInt()-1;
+        int goalCol = scanner.nextInt()-1;
         int rowDistance = Math.abs(row - goalRow);
         int colDistance = Math.abs(col - goalCol);
         //check the distance of current place and destination place
@@ -195,7 +195,6 @@ public class Game {
 
 
     }
-
     /**
      * check if we move our equipment to destination how will our score move
      * @param turn as player turn
@@ -289,6 +288,12 @@ public class Game {
         return true;
     }
 
+    /**
+     *
+     * @param col as the col we want to have move in
+     * @param movement as movement we want to do
+     * @return the new y
+     */
     private int movementCol(int col, int movement) {
         int y = col;
         switch (movement) {
@@ -306,6 +311,12 @@ public class Game {
         return y;
     }
 
+    /**
+     *
+     * @param row as row we want to change
+     * @param movement as movement we want to do
+     * @return new x
+     */
     private int movementRow(int row, int movement) {
         int x = row;
         switch (movement) {
